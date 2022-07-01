@@ -1,10 +1,12 @@
 package iot.lviv.ua.nazar.controllers;
 
 import iot.lviv.ua.nazar.models.Hive;
-import iot.lviv.ua.nazar.models.Telemetry;
+import iot.lviv.ua.nazar.storages.HiveStorage;
 import javassist.NotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -13,12 +15,17 @@ import java.util.Optional;
 @RequestMapping("/hive")
 public class HiveController {
 
-
     private Map<Integer, Hive> hives = new HashMap<>();
-    public int counter = 1;
-    HashMap<Integer, Hive> map = null;
+    public int counter = 0;
+    HashMap<Integer, Hive> map = new HashMap<>();
 
-    @GetMapping
+    @PostMapping("/save")
+    public void saveToFile() throws IOException {
+        ArrayList<Hive> valueList = new ArrayList<>(map.values());
+        HiveStorage.writeToFile(valueList);
+    }
+
+    @GetMapping("getAll")
     public Map<Integer, Hive> getAll() {
         return hives;
     }
@@ -44,7 +51,7 @@ public class HiveController {
         return hive;
     }
 
-    @PutMapping("{id}")
+    @PutMapping("update/{id}")
     public Hive update(@PathVariable Integer id, @RequestBody Hive hive) {
         map.put(id, hive);
         return hive;
@@ -55,10 +62,10 @@ public class HiveController {
     @DeleteMapping("{id}")
     public Hive delete(@PathVariable Integer id) throws NotFoundException {
         Hive hive = getById(id);
-        Optional<Map.Entry<Integer, Hive>> entry = hives.entrySet().stream().
+        Optional<Map.Entry<Integer, Hive>> entry = map.entrySet().stream().
                 filter(entry1 -> entry1.getValue().equals(hive)).findFirst();
         if (entry.isPresent()) {
-            hives.remove(entry.get().getKey());
+            map.remove(entry.get().getKey());
             return entry.get().getValue();
         } else {
             throw new NotFoundException("Not found");

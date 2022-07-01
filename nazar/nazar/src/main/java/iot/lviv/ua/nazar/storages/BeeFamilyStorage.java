@@ -1,6 +1,6 @@
 package iot.lviv.ua.nazar.storages;
 
-import iot.lviv.ua.nazar.models.Hive;
+import iot.lviv.ua.nazar.models.BeeFamily;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,16 +8,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class HiveStorage {
-    public static void writeToFile(List<Hive> hiveList) throws IOException {
+public class BeeFamilyStorage {
+    public static void writeToFile(List<BeeFamily> beeFamilyList) throws IOException {
 
         try {
-            for (Hive hive : hiveList) {
+            for (BeeFamily beeFamily : beeFamilyList) {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_'at'_HH_mm_ss");
                 Date date = new Date(System.currentTimeMillis());
-                FileWriter fileWriter = new FileWriter("hive" + formatter.format(date) + ".csv");
-                fileWriter.write("hiveId" + System.lineSeparator());
-                fileWriter.write(hive.toCSV());
+                FileWriter fileWriter = new FileWriter("beeFamily" + formatter.format(date) + ".csv");
+                fileWriter.write("beeFamilyId" + System.lineSeparator());
+                fileWriter.write(beeFamily.toCSV());
                 Thread.sleep(1000); //pause
                 fileWriter.close();
             }
@@ -27,4 +27,3 @@ public class HiveStorage {
         }
     }
 }
-

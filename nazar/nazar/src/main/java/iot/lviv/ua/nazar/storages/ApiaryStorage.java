@@ -2,33 +2,28 @@ package iot.lviv.ua.nazar.storages;
 
 import iot.lviv.ua.nazar.models.Apiary;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ApiaryStorage {
-    public static void writeToFile(List<Apiary> apiaryList, String fileName) throws IOException {
-        String separator = File.separator;
+    public static void writeToFile(List<Apiary> apiaryList) throws IOException {
 
-        try (FileWriter fileWriter = new FileWriter("src" + separator + "test" + separator + "resources" + separator + fileName)) {
-
-
-            String previousClassName = "";
-
+        try {
             for (Apiary apiary : apiaryList) {
-                if (!apiary.getClass().getSimpleName().equals(previousClassName)) {
-                    fileWriter.write(apiary.getClass().getSimpleName() + "s:");
-                    fileWriter.write("\n");
-                    fileWriter.write(apiary.getHeader());
-                    fileWriter.write("\n");
-                    previousClassName = apiary.getClass().getSimpleName();
-                }
-
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_'at'_HH_mm_ss");
+                Date date = new Date(System.currentTimeMillis());
+                FileWriter fileWriter = new FileWriter("apiary" + formatter.format(date) + ".csv");
+                fileWriter.write("apiaryId" + System.lineSeparator());
                 fileWriter.write(apiary.toCSV());
-                fileWriter.write("\n");
+                Thread.sleep(1000); //pause
+                fileWriter.close();
             }
+        }
+        catch (Exception e) {
+            System.out.println(e.fillInStackTrace());
         }
     }
 }
