@@ -1,0 +1,6 @@
+hiveId;beeFamilyId;beeFamilyAmount;telemetryTemperature;telemetryHumidity;telemetryStreet
+1;1;111;11;77;Kyiv, 13
+2;2;22;22;88;Kyiv, 14
+3;3;33;15;55;Kyiv, 15
+4;4;44;17;44;Kyiv, 16
+5;5;55;1;33;Kyiv, 17

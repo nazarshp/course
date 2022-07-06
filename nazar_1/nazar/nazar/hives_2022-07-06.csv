@@ -1,0 +1,2 @@
+hiveId; beeFamilyId; telemetryTemperature; telemetryHumidity; telemetryStreet
+1;0;1.0;1.0;String1
